@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ThrottleSeekbar">
+        <attr name="orientation" format="enum">
+            <enum name="horizontal" value="0"/>
+            <enum name="vertical" value="1"/>
+        </attr>
+        <attr name="resetTime" format="integer"/>
+        <attr name="maxRange" format="integer"/>
+        <attr name="startProgressColor" format="color"/>
+        <attr name="middleProgressColor" format="color"/>
+        <attr name="endProgressColor" format="color"/>
+        <attr name="backgroundColor" format="color"/>
+    </declare-styleable>
+</resources>

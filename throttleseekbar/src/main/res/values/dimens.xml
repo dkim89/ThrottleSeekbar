@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="throttle_length">100dp</dimen>
+    <dimen name="throttle_length_left">50dp</dimen>
+    <dimen name="throttle_length_right">50dp</dimen>
+
+    <dimen name="throttle_thumb_height">30dp</dimen>
+    <dimen name="throttle_thumb_width">30dp</dimen>
+    <dimen name="throttle_thumb_stroke">2dp</dimen>
+    <dimen name="throttle_radius">5dp</dimen>
+</resources>

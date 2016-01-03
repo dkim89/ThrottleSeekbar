@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">ThrottleSeekBarTest</string>
+    <string name="app_name">ThrottleSeekbarTest</string>
+    <string name="title">ThrottleSeekbar Demo</string>
 </resources>
