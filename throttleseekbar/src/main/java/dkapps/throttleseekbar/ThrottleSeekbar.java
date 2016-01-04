@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.drawable.ClipDrawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.SeekBar;
@@ -16,13 +19,19 @@ import java.util.TimerTask;
  */
 public class ThrottleSeekbar extends SeekBar{
     Context mContext;
+
+    // Attribute variables
+    int mOrientation;
+    int mRange, mOffset, mMaxValue, mMinValue;
+    int mResetTime;
+    int mStartColor, mMidColor, mEndColor, mBackgroundColor, mStrokeColor;
+
+    // Layer-List Drawables
+    LayerDrawable mSeekbarLayerlist;
+    GradientDrawable mLeftBackground, mRightBackground, mLeftForeground, mRightForeground;
+
     Timer timer;
     boolean cancelTimer;
-
-    int mOrientation;
-    int mResetTime;
-    int mStartColor, mMidColor, mEndColor, mBackgroundColor;
-    int mMinRange, mMaxRange, mDefault;
 
     public ThrottleSeekbar(Context context) {
         this(context, null);
@@ -40,18 +49,50 @@ public class ThrottleSeekbar extends SeekBar{
             TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ThrottleSeekbar, 0, 0);
             try {
                 mOrientation = a.getInt(R.styleable.ThrottleSeekbar_orientation, 0);
+                mRange = a.getInt(R.styleable.ThrottleSeekbar_range, 200);
+                mOffset = a.getInt(R.styleable.ThrottleSeekbar_offset, 100);
+                mMaxValue = a.getInt(R.styleable.ThrottleSeekbar_maxValue, 100);
+                mMinValue = a.getInt(R.styleable.ThrottleSeekbar_minValue, -100);
                 mResetTime = a.getInt(R.styleable.ThrottleSeekbar_resetTime, 1000);
+
                 mStartColor = a.getColor(R.styleable.ThrottleSeekbar_startProgressColor, getResources().getColor(R.color.flat_green));
                 mMidColor = a.getColor(R.styleable.ThrottleSeekbar_middleProgressColor, getResources().getColor(R.color.flat_yellow));
                 mEndColor = a.getColor(R.styleable.ThrottleSeekbar_endProgressColor, getResources().getColor(R.color.flat_red));
                 mBackgroundColor = a.getColor(R.styleable.ThrottleSeekbar_backgroundColor, getResources().getColor(R.color.flat_white));
-                mMaxRange = a.getInt(R.styleable.ThrottleSeekbar_maxRange, 100);
+                mStrokeColor = a.getColor(R.styleable.ThrottleSeekbar_strokeColor, getResources().getColor(R.color.flat_gray));
             } finally {
                 a.recycle();
             }
         }
         timer = new Timer();
         initializeProgressBar();
+    }
+
+    private void initializeProgressBar() {
+        mSeekbarLayerlist = (LayerDrawable) getResources().getDrawable(R.drawable.layerlist_seekbar);
+        ClipDrawable clipDrawable = (ClipDrawable) mSeekbarLayerlist.findDrawableByLayerId(R.id.progressbar_clip);
+        if (mSeekbarLayerlist != null) {
+            mLeftBackground = (GradientDrawable) mSeekbarLayerlist.findDrawableByLayerId(R.id.seekbar_left);
+            mLeftForeground = (GradientDrawable) mSeekbarLayerlist.findDrawableByLayerId(R.id.progressbar_left);
+            mRightBackground = (GradientDrawable) mSeekbarLayerlist.findDrawableByLayerId(R.id.seekbar_right);
+//            mRightForeground = (GradientDrawable) clipDrawable.(R.id.progressbar_right);
+        }
+
+        setBarBackgroundColor(mBackgroundColor, mStrokeColor);
+        setProgressDrawable(getResources().getDrawable(R.drawable.layerlist_seekbar));
+        initializeThumb();
+        setMax(mRange);
+        setProgress(mOffset);
+    }
+
+    private void initializeThumb() {
+        setThumb(getResources().getDrawable(R.drawable.shape_thumb));
+        setThumbOffset(0);
+    }
+
+    public void setBarBackgroundColor(int backgroundColor, int strokeColor) {
+        mLeftBackground.setColor(backgroundColor);
+        mRightBackground.setColor(strokeColor);
     }
 
     @Override
@@ -103,9 +144,9 @@ public class ThrottleSeekbar extends SeekBar{
                         ((Activity) mContext).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                if (getProgress() == mDefault || cancelTimer)
+                                if (getProgress() == mOffset || cancelTimer)
                                     cancel();
-                                else if (getProgress() < mDefault)
+                                else if (getProgress() < mOffset)
                                     setProgress(getProgress()+1);
                                 else
                                     setProgress(getProgress()-1);
@@ -120,15 +161,6 @@ public class ThrottleSeekbar extends SeekBar{
         }
         return true;
     }
-
-    private void initializeProgressBar() {
-        setProgressDrawable(getResources().getDrawable(R.drawable.layerlist_seekbar));
-        setThumb(getResources().getDrawable(R.drawable.shape_thumb));
-        setThumbOffset(0);
-        setMax(mMaxRange);
-        setProgress(mDefault);
-    }
-
 
     public void onActionMove(MotionEvent event) {
         setProgress(getMax() - (int) (getMax() * event.getY() / getHeight()));
