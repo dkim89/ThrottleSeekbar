@@ -20,8 +20,9 @@ import java.util.TimerTask;
 public class ThrottleSeekbar extends SeekBar {
     static final int DEFAULT_MAX = 100;
     static final int DEFAULT_MIN = -100;
+    static final int DEFAULT_BAR_WIDTH = 2;
     static final int DEFAULT_OFFSET = 0;
-    static final int DEFAULT_RESET = 1000;  // Milliseconds
+    static final int DEFAULT_RESET = 1000;  // ms
     static final int DEFAULT_ORIENTATION = 0;
     static final int DEFAULT_DIRECTION = 0;
 
@@ -29,7 +30,7 @@ public class ThrottleSeekbar extends SeekBar {
     // Attribute variables
     int mOrientation;
     int mDirection;
-    int mOffset, mMaxValue, mMinValue;
+    int mOffset, mMaxValue, mMinValue, mBarWidth;
     int mResetSpeed;
     int mStartColor, mMidColor, mEndColor, mBackgroundColor, mStrokeColor;
 
@@ -62,7 +63,8 @@ public class ThrottleSeekbar extends SeekBar {
                 mOffset = a.getInt(R.styleable.ThrottleSeekbar_offset, DEFAULT_OFFSET);
                 mMaxValue = a.getInt(R.styleable.ThrottleSeekbar_maxValue, DEFAULT_MAX);
                 mMinValue = a.getInt(R.styleable.ThrottleSeekbar_minValue, DEFAULT_MIN);
-                mResetSpeed = a.getInt(R.styleable.ThrottleSeekbar_resetTime, DEFAULT_RESET);
+                mResetSpeed = a.getInt(R.styleable.ThrottleSeekbar_resetSpeed, DEFAULT_RESET);
+                mBarWidth = a.getLayoutDimension(R.styleable.ThrottleSeekbar_barWidth, DEFAULT_BAR_WIDTH);
                 // Color and Stroke
                 mStartColor = a.getColor(R.styleable.ThrottleSeekbar_startProgressColor, getResources().getColor(R.color.flat_green));
                 mMidColor = a.getColor(R.styleable.ThrottleSeekbar_middleProgressColor, getResources().getColor(R.color.flat_yellow));
@@ -74,18 +76,17 @@ public class ThrottleSeekbar extends SeekBar {
             }
         }
         timer = new Timer();
-        initializeProgressBar();
+        initializeThrottleBar();
     }
 
-    private void initializeProgressBar() {
+    private void initializeThrottleBar() {
         // Get Layer-List drawable
         mSeekbarLayerlist = (LayerDrawable) getResources().getDrawable(R.drawable.layerlist_seekbar);
-        ClipDrawable clipDrawable = (ClipDrawable) mSeekbarLayerlist.findDrawableByLayerId(R.id.progressbar_clip);
         if (mSeekbarLayerlist != null) {
             mLeftBackground = (GradientDrawable) mSeekbarLayerlist.findDrawableByLayerId(R.id.seekbar_left);
             mLeftForeground = (GradientDrawable) mSeekbarLayerlist.findDrawableByLayerId(R.id.progressbar_left);
             mRightBackground = (GradientDrawable) mSeekbarLayerlist.findDrawableByLayerId(R.id.seekbar_right);
-//            mRightForeground = (GradientDrawable) clipDrawable.(R.id.progressbar_right);
+            mRightForeground = (GradientDrawable) mSeekbarLayerlist.findDrawableByLayerId(R.id.progressbar_right);
         }
 
         setBarBackgroundColor(mBackgroundColor, mStrokeColor);
@@ -140,8 +141,13 @@ public class ThrottleSeekbar extends SeekBar {
                 break;
             case MotionEvent.ACTION_MOVE:
                 cancelTimer = true;
-                setProgress(getMax() - (int) (getMax() * event.getY() / getHeight()));
-                onSizeChanged(getWidth(), getHeight(), 0, 0);
+                if (mOrientation == 1) {
+                    setProgress(getMax() - (int) (getMax() * event.getX() / getWidth()));
+                    onSizeChanged(getWidth(), getHeight(), 0, 0);
+                } else {
+                    setProgress(getMax() - (int) (getMax() * event.getY() / getHeight()));
+                    onSizeChanged(getWidth(), getHeight(), 0, 0);
+                }
                 break;
             case MotionEvent.ACTION_POINTER_UP:
                 cancelTimer = true;
@@ -172,18 +178,22 @@ public class ThrottleSeekbar extends SeekBar {
         return true;
     }
 
-    public void onActionMove(MotionEvent event) {
-        setProgress(getMax() - (int) (getMax() * event.getY() / getHeight()));
-        onSizeChanged(getWidth(), getHeight(), 0, 0);
-    }
-
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(h, w, oldh, oldw);
+        if (mOrientation == 0) {
+            super.onSizeChanged(w, h, oldw, oldh);
+        } else {
+            super.onSizeChanged(h, w, oldh, oldw);
+        }
     }
 
     @Override
     public void setOnSeekBarChangeListener(OnSeekBarChangeListener l) {
         super.setOnSeekBarChangeListener(l);
     }
+
+    //    public void onActionMove(MotionEvent event) {
+    //        setProgress(getMax() - (int) (getMax() * event.getY() / getHeight()));
+    //        onSizeChanged(getWidth(), getHeight(), 0, 0);
+    //    }
 }

@@ -19,25 +19,28 @@
         android:paddingBottom="@dimen/padding_view"/>
 
     <dkapps.throttleseekbar.ThrottleSeekbar
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/test_throttle_length"
+        android:layout_width="100dp"
+        android:layout_height="20dp"
+        android:minHeight="2dp"
+        android:maxHeight="2dp"
         android:layout_gravity="center"
-        custom:backgroundColor="@color/colorPrimary"
+        android:background="@color/flat_red"
+        custom:backgroundColor="@color/black"
         custom:orientation="horizontal"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/vertical"
-        android:textSize="@dimen/font_default"
-        android:paddingBottom="@dimen/padding_view"/>
+    <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="center"-->
+        <!--android:text="@string/vertical"-->
+        <!--android:textSize="@dimen/font_default"-->
+        <!--android:paddingBottom="@dimen/padding_view"/>-->
 
-    <dkapps.throttleseekbar.ThrottleSeekbar
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/test_throttle_length"
-        android:layout_gravity="center"
-        custom:backgroundColor="@color/colorPrimary"
-        custom:orientation="vertical"/>
+    <!--<dkapps.throttleseekbar.ThrottleSeekbar-->
+        <!--android:layout_width="100dp"-->
+        <!--android:layout_height="10dp"-->
+        <!--android:layout_gravity="center"-->
+        <!--custom:backgroundColor="@color/colorPrimary"-->
+        <!--custom:orientation="vertical"/>-->
 
 </LinearLayout>

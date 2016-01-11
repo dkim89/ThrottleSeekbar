@@ -9,9 +9,9 @@
     <dimen name="title_text">20sp</dimen>
     <dimen name="font_default">14sp</dimen>
 
-    <dimen name="test_throttle_length">150dp</dimen>
-    <dimen name="test_throttle_length_left">75dp</dimen>
-    <dimen name="test_throttle_length_right">75dp</dimen>
+    <dimen name="test_throttle_height">5dp</dimen>
+    <dimen name="test_throttle_width">150dp</dimen>
+    <dimen name="test_throttle_bar_width">2dp</dimen>
     <dimen name="test_throttle_bar_stroke">1dp</dimen>
 
     <dimen name="test_throttle_thumb_height">20dp</dimen>

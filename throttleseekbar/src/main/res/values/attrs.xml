@@ -9,15 +9,17 @@
             <enum name="normal" value="0"/>
             <enum name="reverse" value="1"/>
         </attr>
-        <attr name="offset" format="integer"/>
-        <attr name="maxValue" format="integer"/>
-        <attr name="minValue" format="integer"/>
-        <attr name="resetSpeed" format="integer"/>
 
         <attr name="startProgressColor" format="color"/>
         <attr name="middleProgressColor" format="color"/>
         <attr name="endProgressColor" format="color"/>
         <attr name="backgroundColor" format="color"/>
         <attr name="strokeColor" format="color"/>
+
+        <attr name="barWidth" format="dimension"/>
+        <attr name="offset" format="integer"/>
+        <attr name="maxValue" format="integer"/>
+        <attr name="minValue" format="integer"/>
+        <attr name="resetSpeed" format="integer"/>
     </declare-styleable>
 </resources>
