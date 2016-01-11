@@ -31,6 +31,8 @@
     </item>
 
     <item android:id="@+id/progressbar_clip">
-        <clip android:drawable="@drawable/layerlist_progressbar" />
+        <clip android:drawable="@drawable/layerlist_progressbar">
+
+        </clip>
     </item>
 </layer-list>

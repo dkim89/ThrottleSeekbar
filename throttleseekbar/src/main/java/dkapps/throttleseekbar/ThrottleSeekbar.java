@@ -17,13 +17,20 @@ import java.util.TimerTask;
 /**
  * Created by davidkim on 1.02.16
  */
-public class ThrottleSeekbar extends SeekBar{
-    Context mContext;
+public class ThrottleSeekbar extends SeekBar {
+    static final int DEFAULT_MAX = 100;
+    static final int DEFAULT_MIN = -100;
+    static final int DEFAULT_OFFSET = 0;
+    static final int DEFAULT_RESET = 1000;  // Milliseconds
+    static final int DEFAULT_ORIENTATION = 0;
+    static final int DEFAULT_DIRECTION = 0;
 
+    Context mContext;
     // Attribute variables
     int mOrientation;
-    int mRange, mOffset, mMaxValue, mMinValue;
-    int mResetTime;
+    int mDirection;
+    int mOffset, mMaxValue, mMinValue;
+    int mResetSpeed;
     int mStartColor, mMidColor, mEndColor, mBackgroundColor, mStrokeColor;
 
     // Layer-List Drawables
@@ -48,13 +55,15 @@ public class ThrottleSeekbar extends SeekBar{
         if (attrs != null) {
             TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ThrottleSeekbar, 0, 0);
             try {
-                mOrientation = a.getInt(R.styleable.ThrottleSeekbar_orientation, 0);
-                mRange = a.getInt(R.styleable.ThrottleSeekbar_range, 200);
-                mOffset = a.getInt(R.styleable.ThrottleSeekbar_offset, 100);
-                mMaxValue = a.getInt(R.styleable.ThrottleSeekbar_maxValue, 100);
-                mMinValue = a.getInt(R.styleable.ThrottleSeekbar_minValue, -100);
-                mResetTime = a.getInt(R.styleable.ThrottleSeekbar_resetTime, 1000);
-
+                // Orientation and Direction
+                mOrientation = a.getInt(R.styleable.ThrottleSeekbar_orientation, DEFAULT_ORIENTATION);
+                mDirection = a.getInt(R.styleable.ThrottleSeekbar_direction, DEFAULT_DIRECTION);
+                // Range, Offset, Min, Max, Reset Speed
+                mOffset = a.getInt(R.styleable.ThrottleSeekbar_offset, DEFAULT_OFFSET);
+                mMaxValue = a.getInt(R.styleable.ThrottleSeekbar_maxValue, DEFAULT_MAX);
+                mMinValue = a.getInt(R.styleable.ThrottleSeekbar_minValue, DEFAULT_MIN);
+                mResetSpeed = a.getInt(R.styleable.ThrottleSeekbar_resetTime, DEFAULT_RESET);
+                // Color and Stroke
                 mStartColor = a.getColor(R.styleable.ThrottleSeekbar_startProgressColor, getResources().getColor(R.color.flat_green));
                 mMidColor = a.getColor(R.styleable.ThrottleSeekbar_middleProgressColor, getResources().getColor(R.color.flat_yellow));
                 mEndColor = a.getColor(R.styleable.ThrottleSeekbar_endProgressColor, getResources().getColor(R.color.flat_red));
@@ -69,6 +78,7 @@ public class ThrottleSeekbar extends SeekBar{
     }
 
     private void initializeProgressBar() {
+        // Get Layer-List drawable
         mSeekbarLayerlist = (LayerDrawable) getResources().getDrawable(R.drawable.layerlist_seekbar);
         ClipDrawable clipDrawable = (ClipDrawable) mSeekbarLayerlist.findDrawableByLayerId(R.id.progressbar_clip);
         if (mSeekbarLayerlist != null) {
@@ -81,7 +91,7 @@ public class ThrottleSeekbar extends SeekBar{
         setBarBackgroundColor(mBackgroundColor, mStrokeColor);
         setProgressDrawable(getResources().getDrawable(R.drawable.layerlist_seekbar));
         initializeThumb();
-        setMax(mRange);
+        setMax(mMaxValue);
         setProgress(mOffset);
     }
 

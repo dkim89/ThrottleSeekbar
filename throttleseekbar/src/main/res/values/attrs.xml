@@ -4,14 +4,15 @@
         <attr name="orientation" format="enum">
             <enum name="horizontal" value="0"/>
             <enum name="vertical" value="1"/>
-            <enum name="reverse_horizontal" value="2"/>
         </attr>
-
-        <attr name="range" format="integer"/>
+        <attr name="direction" format="enum">
+            <enum name="normal" value="0"/>
+            <enum name="reverse" value="1"/>
+        </attr>
         <attr name="offset" format="integer"/>
         <attr name="maxValue" format="integer"/>
         <attr name="minValue" format="integer"/>
-        <attr name="resetTime" format="integer"/>
+        <attr name="resetSpeed" format="integer"/>
 
         <attr name="startProgressColor" format="color"/>
         <attr name="middleProgressColor" format="color"/>

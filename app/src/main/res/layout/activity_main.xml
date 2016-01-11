@@ -9,20 +9,35 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical">
 
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/title"
-        android:textSize="@dimen/title_text"
-        android:paddingBottom="@dimen/title_padding"/>
+        android:text="@string/horizontal"
+        android:textSize="@dimen/font_default"
+        android:paddingBottom="@dimen/padding_view"/>
 
     <dkapps.throttleseekbar.ThrottleSeekbar
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/throttle_length"
+        android:layout_height="@dimen/test_throttle_length"
         android:layout_gravity="center"
-        android:minHeight="@dimen/throttle_radius"
-        android:maxHeight="@dimen/throttle_radius"
+        custom:backgroundColor="@color/colorPrimary"
+        custom:orientation="horizontal"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/vertical"
+        android:textSize="@dimen/font_default"
+        android:paddingBottom="@dimen/padding_view"/>
+
+    <dkapps.throttleseekbar.ThrottleSeekbar
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/test_throttle_length"
+        android:layout_gravity="center"
         custom:backgroundColor="@color/colorPrimary"
         custom:orientation="vertical"/>
+
 </LinearLayout>
