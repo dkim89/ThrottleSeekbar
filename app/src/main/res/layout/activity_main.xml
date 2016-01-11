@@ -16,17 +16,22 @@
         android:gravity="center"
         android:text="@string/horizontal"
         android:textSize="@dimen/font_default"
-        android:paddingBottom="@dimen/padding_view"/>
+        android:layout_marginBottom="@dimen/padding_view"/>
 
     <dkapps.throttleseekbar.ThrottleSeekbar
-        android:layout_width="100dp"
-        android:layout_height="20dp"
-        android:minHeight="2dp"
-        android:maxHeight="2dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@color/flat_red"
-        custom:backgroundColor="@color/black"
-        custom:orientation="horizontal"/>
+        custom:orientation="horizontal"
+        custom:direction="normal"
+        custom:minValue="-100"
+        custom:maxValue="100"
+        custom:offset="100"
+        custom:resetSpeed="1000"
+        custom:barLength="@dimen/test_bar_length"
+        custom:barWidth="@dimen/test_bar_width"
+        custom:thumbWidth="@dimen/test_thumb_width"
+        custom:thumbHeight="@dimen/test_thumb_height"/>
 
     <!--<TextView-->
         <!--android:layout_width="match_parent"-->

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="orientation_horizontal">0</integer>
+    <integer name="orientation_vertical">1</integer>
+
+    <integer name="value_max">100</integer>
+    <integer name="value_min">-100</integer>
+    <integer name="value_offset">100</integer>
+    <integer name="value_reset">1000</integer>
+</resources>

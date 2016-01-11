@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="ThrottleSeekbar">
+        <!-- Orientation and Direction -->
         <attr name="orientation" format="enum">
             <enum name="horizontal" value="0"/>
             <enum name="vertical" value="1"/>
@@ -10,16 +11,31 @@
             <enum name="reverse" value="1"/>
         </attr>
 
-        <attr name="startProgressColor" format="color"/>
-        <attr name="middleProgressColor" format="color"/>
-        <attr name="endProgressColor" format="color"/>
-        <attr name="backgroundColor" format="color"/>
-        <attr name="strokeColor" format="color"/>
-
-        <attr name="barWidth" format="dimension"/>
-        <attr name="offset" format="integer"/>
+        <!-- Numerical data values returned, starting position, reset speed -->
         <attr name="maxValue" format="integer"/>
         <attr name="minValue" format="integer"/>
+        <attr name="offset" format="integer"/>
         <attr name="resetSpeed" format="integer"/>
+
+        <!-- Widget bar length, thickness of bar -->
+        <attr name="barLength" format="dimension"/>
+        <attr name="barWidth" format="dimension"/>
+        <attr name="barStroke" format="dimension"/>
+        <attr name="barRadius" format="dimension"/>
+
+        <!-- Thumb size and style -->
+        <attr name="thumbWidth" format="dimension"/>
+        <attr name="thumbHeight" format="dimension"/>
+        <attr name="thumbStroke" format="dimension"/>
+
+        <!-- Bar and Thumb Color -->
+        <attr name="startColor" format="color"/>
+        <attr name="middleColor" format="color"/>
+        <attr name="endColor" format="color"/>
+        <attr name="barSolidColor" format="color"/>
+        <attr name="barStrokeColor" format="color"/>
+        <attr name="thumbSolidColor" format="color"/>
+        <attr name="thumbStrokeColor" format="color" />
+
     </declare-styleable>
 </resources>

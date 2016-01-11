@@ -5,9 +5,12 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.drawable.ClipDrawable;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.widget.SeekBar;
 
@@ -18,21 +21,18 @@ import java.util.TimerTask;
  * Created by davidkim on 1.02.16
  */
 public class ThrottleSeekbar extends SeekBar {
-    static final int DEFAULT_MAX = 100;
-    static final int DEFAULT_MIN = -100;
-    static final int DEFAULT_BAR_WIDTH = 2;
-    static final int DEFAULT_OFFSET = 0;
-    static final int DEFAULT_RESET = 1000;  // ms
-    static final int DEFAULT_ORIENTATION = 0;
-    static final int DEFAULT_DIRECTION = 0;
-
     Context mContext;
-    // Attribute variables
-    int mOrientation;
-    int mDirection;
-    int mOffset, mMaxValue, mMinValue, mBarWidth;
-    int mResetSpeed;
-    int mStartColor, mMidColor, mEndColor, mBackgroundColor, mStrokeColor;
+
+    // Orientation and Direction values
+    int mOrientation, mDirection;
+    // Data values
+    int mMaxValue, mMinValue, mOffset, mResetSpeed;
+    // Bar dimensions
+    int mBarLength, mBarWidth, mBarStroke, mBarRadius;
+    // Thumb dimensions
+    int mThumbWidth, mThumbHeight, mThumbStroke;
+    // Color values
+    int mStartColor, mMidColor, mEndColor, mBarSolidColor, mBarStrokeColor, mThumbSolidColor, mThumbStrokeColor;
 
     // Layer-List Drawables
     LayerDrawable mSeekbarLayerlist;
@@ -57,20 +57,36 @@ public class ThrottleSeekbar extends SeekBar {
             TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ThrottleSeekbar, 0, 0);
             try {
                 // Orientation and Direction
-                mOrientation = a.getInt(R.styleable.ThrottleSeekbar_orientation, DEFAULT_ORIENTATION);
-                mDirection = a.getInt(R.styleable.ThrottleSeekbar_direction, DEFAULT_DIRECTION);
-                // Range, Offset, Min, Max, Reset Speed
-                mOffset = a.getInt(R.styleable.ThrottleSeekbar_offset, DEFAULT_OFFSET);
-                mMaxValue = a.getInt(R.styleable.ThrottleSeekbar_maxValue, DEFAULT_MAX);
-                mMinValue = a.getInt(R.styleable.ThrottleSeekbar_minValue, DEFAULT_MIN);
-                mResetSpeed = a.getInt(R.styleable.ThrottleSeekbar_resetSpeed, DEFAULT_RESET);
-                mBarWidth = a.getLayoutDimension(R.styleable.ThrottleSeekbar_barWidth, DEFAULT_BAR_WIDTH);
-                // Color and Stroke
-                mStartColor = a.getColor(R.styleable.ThrottleSeekbar_startProgressColor, getResources().getColor(R.color.flat_green));
-                mMidColor = a.getColor(R.styleable.ThrottleSeekbar_middleProgressColor, getResources().getColor(R.color.flat_yellow));
-                mEndColor = a.getColor(R.styleable.ThrottleSeekbar_endProgressColor, getResources().getColor(R.color.flat_red));
-                mBackgroundColor = a.getColor(R.styleable.ThrottleSeekbar_backgroundColor, getResources().getColor(R.color.flat_white));
-                mStrokeColor = a.getColor(R.styleable.ThrottleSeekbar_strokeColor, getResources().getColor(R.color.flat_gray));
+                mOrientation = a.getInt(R.styleable.ThrottleSeekbar_orientation, getResources().getInteger(R.integer.orientation_horizontal));
+                mDirection = a.getInt(R.styleable.ThrottleSeekbar_direction, getResources().getInteger(R.integer.orientation_vertical));
+
+                // Min, Max, Offset, Reset Speed
+                mMaxValue = a.getInt(R.styleable.ThrottleSeekbar_maxValue, getResources().getInteger(R.integer.value_max));
+                mMinValue = a.getInt(R.styleable.ThrottleSeekbar_minValue, getResources().getInteger(R.integer.value_min));
+                mOffset = a.getInt(R.styleable.ThrottleSeekbar_offset, getResources().getInteger(R.integer.value_offset));
+                mResetSpeed = a.getInt(R.styleable.ThrottleSeekbar_resetSpeed, getResources().getInteger(R.integer.value_reset));
+
+                // Bar Dimension
+                mBarLength = a.getDimensionPixelSize(R.styleable.ThrottleSeekbar_barLength, (int) getResources().getDimension(R.dimen.bar_length));
+                mBarWidth = a.getDimensionPixelSize(R.styleable.ThrottleSeekbar_barWidth, (int) getResources().getDimension(R.dimen.bar_width));
+                mBarStroke = a.getDimensionPixelSize(R.styleable.ThrottleSeekbar_barStroke, (int) getResources().getDimension(R.dimen.bar_stroke));
+                mBarRadius = a.getDimensionPixelSize(R.styleable.ThrottleSeekbar_barRadius, (int) getResources().getDimension(R.dimen.bar_radius));
+
+                // Thumb Dimension
+                mThumbWidth = a.getDimensionPixelSize(R.styleable.ThrottleSeekbar_thumbWidth, (int) getResources().getDimension(R.dimen.thumb_width));
+                mThumbHeight = a.getDimensionPixelSize(R.styleable.ThrottleSeekbar_thumbHeight, (int) getResources().getDimension(R.dimen.thumb_height));
+                mThumbStroke = a.getDimensionPixelSize(R.styleable.ThrottleSeekbar_thumbStroke, (int) getResources().getDimension(R.dimen.thumb_stroke));
+
+                // Bar color
+                mStartColor = a.getColor(R.styleable.ThrottleSeekbar_startColor, getResources().getColor(R.color.flat_green));
+                mMidColor = a.getColor(R.styleable.ThrottleSeekbar_middleColor, getResources().getColor(R.color.flat_yellow));
+                mEndColor = a.getColor(R.styleable.ThrottleSeekbar_endColor, getResources().getColor(R.color.flat_red));
+                mBarSolidColor = a.getColor(R.styleable.ThrottleSeekbar_barSolidColor, getResources().getColor(R.color.flat_blue));
+                mBarStrokeColor = a.getColor(R.styleable.ThrottleSeekbar_barStrokeColor, getResources().getColor(R.color.flat_blue_transparent));
+
+                // Thumb color
+                mThumbSolidColor = a.getColor(R.styleable.ThrottleSeekbar_thumbSolidColor, getResources().getColor(R.color.flat_white));
+                mThumbStrokeColor = a.getColor(R.styleable.ThrottleSeekbar_thumbStrokeColor, getResources().getColor(R.color.flat_gray));
             } finally {
                 a.recycle();
             }
@@ -85,25 +101,49 @@ public class ThrottleSeekbar extends SeekBar {
         if (mSeekbarLayerlist != null) {
             mLeftBackground = (GradientDrawable) mSeekbarLayerlist.findDrawableByLayerId(R.id.seekbar_left);
             mLeftForeground = (GradientDrawable) mSeekbarLayerlist.findDrawableByLayerId(R.id.progressbar_left);
-            mRightBackground = (GradientDrawable) mSeekbarLayerlist.findDrawableByLayerId(R.id.seekbar_right);
-            mRightForeground = (GradientDrawable) mSeekbarLayerlist.findDrawableByLayerId(R.id.progressbar_right);
+            mRightBackground = (GradientDrawable) mSeekbarLayerlist.findDrawableByLayerId(R.id.progressbar_right);
+            mRightForeground = (GradientDrawable) mSeekbarLayerlist.findDrawableByLayerId(R.id.seekbar_right);
+            setProgressDrawable(mSeekbarLayerlist);
+            setBarDimens();
+            setBarStyle();
+            initializeThumb();
         }
 
-        setBarBackgroundColor(mBackgroundColor, mStrokeColor);
-        setProgressDrawable(getResources().getDrawable(R.drawable.layerlist_seekbar));
-        initializeThumb();
         setMax(mMaxValue);
         setProgress(mOffset);
+    }
+
+    private void setBarDimens(){
+
+    }
+
+    private void setBarStyle() {
+        // Left-Right offset
+        // TODO NEED TO CONVERT IT TO DP RATIO
+        // TODO NULL POINTER
+        LayerDrawable layerDrawable = new LayerDrawable(new Drawable[] {mLeftBackground, mRightBackground});
+        layerDrawable.setLayerInset(0, mOffset, 0, 0, 0);
+        layerDrawable.setLayerInset(1, 0, 0, mOffset, 0);
+
+        // Colors
+        mLeftBackground.setColor(mBarSolidColor);
+        mLeftBackground.setStroke(mBarStroke, mBarStrokeColor);
+        mRightBackground.setColor(mBarSolidColor);
+        mRightBackground.setStroke(mBarStroke, mBarStrokeColor);
+
+        mLeftForeground.setColors(new int[] {mStartColor, mMidColor, mEndColor});
+        mRightForeground.setColors(new int[] {mStartColor, mMidColor, mEndColor});
+
+        // Radius
+        mLeftBackground.setCornerRadii(new float[] {0, mBarRadius, mBarRadius, 0});
+        mLeftForeground.setCornerRadii(new float[] {0, mBarRadius, mBarRadius, 0});
+        mRightBackground.setCornerRadii(new float[] {mBarRadius, 0, 0, mBarRadius});
+        mRightForeground.setCornerRadii(new float[] {mBarRadius, 0, 0, mBarRadius});
     }
 
     private void initializeThumb() {
         setThumb(getResources().getDrawable(R.drawable.shape_thumb));
         setThumbOffset(0);
-    }
-
-    public void setBarBackgroundColor(int backgroundColor, int strokeColor) {
-        mLeftBackground.setColor(backgroundColor);
-        mRightBackground.setColor(strokeColor);
     }
 
     @Override
@@ -192,8 +232,7 @@ public class ThrottleSeekbar extends SeekBar {
         super.setOnSeekBarChangeListener(l);
     }
 
-    //    public void onActionMove(MotionEvent event) {
-    //        setProgress(getMax() - (int) (getMax() * event.getY() / getHeight()));
-    //        onSizeChanged(getWidth(), getHeight(), 0, 0);
-    //    }
+    public int getPixelDp(float dp) {
+        return (int)(getResources().getDisplayMetrics().density * dp + 0.5f);
+    }
 }

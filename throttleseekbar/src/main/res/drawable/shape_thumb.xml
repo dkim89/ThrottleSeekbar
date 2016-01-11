@@ -6,9 +6,9 @@
 
     <stroke
         android:color="@color/flat_gray"
-        android:width="@dimen/throttle_thumb_stroke" />
+        android:width="@dimen/thumb_stroke" />
 
     <size
-        android:height="@dimen/throttle_thumb_height"
-        android:width="@dimen/throttle_thumb_width" />
+        android:height="@dimen/thumb_height"
+        android:width="@dimen/thumb_width" />
 </shape>

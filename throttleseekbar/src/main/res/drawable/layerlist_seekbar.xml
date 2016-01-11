@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:id="@+id/seekbar_left" android:left="@dimen/throttle_length_left">
+    <item android:id="@+id/seekbar_left">
         <shape>
             <corners
                 android:bottomLeftRadius="0dp"
                 android:topLeftRadius="0dp"
-                android:bottomRightRadius="@dimen/throttle_radius"
-                android:topRightRadius="@dimen/throttle_radius"/>
+                android:bottomRightRadius="@dimen/bar_radius"
+                android:topRightRadius="@dimen/bar_radius"/>
             <solid
                 android:color="@color/flat_white"
                 android:type="linear"/>
             <stroke
                 android:color="@color/flat_gray"
-                android:width="@dimen/throttle_bar_stroke" />
+                android:width="@dimen/bar_stroke" />
         </shape>
     </item>
 
-    <item android:id="@+id/seekbar_right" android:right="@dimen/throttle_length_right">
+    <item android:id="@+id/seekbar_right">
         <shape>
             <corners
-                android:bottomLeftRadius="@dimen/throttle_radius"
+                android:bottomLeftRadius="@dimen/bar_radius"
                 android:bottomRightRadius="0dp"
-                android:topLeftRadius="@dimen/throttle_radius"
+                android:topLeftRadius="@dimen/bar_radius"
                 android:topRightRadius="0dp"/>
             <gradient
                 android:centerColor="@color/flat_yellow"
@@ -32,39 +32,36 @@
     </item>
 
     <item>
-        <clip android:id="@+id/progressbar_right" android:right="@dimen/throttle_length_right">
+        <clip android:id="@+id/progressbar_right">
             <shape>
                 <corners
-                    android:bottomLeftRadius="@dimen/throttle_radius"
+                    android:bottomLeftRadius="@dimen/bar_radius"
                     android:bottomRightRadius="0dp"
-                    android:topLeftRadius="@dimen/throttle_radius"
+                    android:topLeftRadius="@dimen/bar_radius"
                     android:topRightRadius="0dp"/>
                 <solid
                     android:color="@color/flat_white"
                     android:type="linear"/>
                 <stroke
                     android:color="@color/flat_gray"
-                    android:width="@dimen/throttle_bar_stroke" />
+                    android:width="@dimen/bar_stroke" />
             </shape>
         </clip>
     </item>
 
     <item>
-        <clip android:id="@+id/progressbar_left" android:left="@dimen/throttle_length_left">
+        <clip android:id="@+id/progressbar_left">
             <shape>
                 <corners
                     android:bottomLeftRadius="0dp"
-                    android:bottomRightRadius="@dimen/throttle_radius"
+                    android:bottomRightRadius="@dimen/bar_radius"
                     android:topLeftRadius="0dp"
-                    android:topRightRadius="@dimen/throttle_radius"/>
+                    android:topRightRadius="@dimen/bar_radius"/>
                 <gradient
                     android:centerColor="@color/flat_yellow"
                     android:startColor="@color/flat_green"
                     android:endColor="@color/flat_red"
                     android:type="linear"/>
-                <stroke
-                    android:color="@color/flat_gray"
-                    android:width="@dimen/throttle_bar_stroke" />
             </shape>
         </clip>
     </item>

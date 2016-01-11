@@ -9,13 +9,13 @@
     <dimen name="title_text">20sp</dimen>
     <dimen name="font_default">14sp</dimen>
 
-    <dimen name="test_throttle_height">5dp</dimen>
-    <dimen name="test_throttle_width">150dp</dimen>
-    <dimen name="test_throttle_bar_width">2dp</dimen>
-    <dimen name="test_throttle_bar_stroke">1dp</dimen>
+    <dimen name="test_bar_length">150dp</dimen>
+    <dimen name="test_bar_width">2dp</dimen>
+    <dimen name="test_bar_stroke">1dp</dimen>
+    <dimen name="test_bar_radius">5dp</dimen>
 
-    <dimen name="test_throttle_thumb_height">20dp</dimen>
-    <dimen name="test_throttle_thumb_width">20dp</dimen>
-    <dimen name="test_throttle_thumb_stroke">2dp</dimen>
-    <dimen name="test_throttle_radius">5dp</dimen>
+    <dimen name="test_thumb_height">20dp</dimen>
+    <dimen name="test_thumb_width">20dp</dimen>
+    <dimen name="test_thumb_stroke">1dp</dimen>
+
 </resources>
