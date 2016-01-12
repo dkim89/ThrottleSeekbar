@@ -53,6 +53,7 @@ public class ThrottleSeekbar extends SeekBar {
         // Get Layer-List drawable
         mSeekbarLayerlist = (LayerDrawable) getResources().getDrawable(R.drawable.layerlist_seekbar);
         setProgressDrawable(mSeekbarLayerlist);
+
         if (attrs != null) {
             TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ThrottleSeekbar, 0, 0);
             try {
