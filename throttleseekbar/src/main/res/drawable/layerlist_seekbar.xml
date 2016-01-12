@@ -1,44 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
     <item android:id="@+id/seekbar_left">
-        <shape>
-            <corners
-                android:bottomLeftRadius="0dp"
-                android:topLeftRadius="0dp"
-                android:bottomRightRadius="@dimen/bar_radius"
-                android:topRightRadius="@dimen/bar_radius"/>
-            <solid
-                android:color="@color/flat_white"
-                android:type="linear"/>
-            <stroke
-                android:color="@color/flat_gray"
-                android:width="@dimen/bar_stroke" />
-        </shape>
-    </item>
-
-    <item android:id="@+id/seekbar_right">
-        <shape>
-            <corners
-                android:bottomLeftRadius="@dimen/bar_radius"
-                android:bottomRightRadius="0dp"
-                android:topLeftRadius="@dimen/bar_radius"
-                android:topRightRadius="0dp"/>
-            <gradient
-                android:centerColor="@color/flat_yellow"
-                android:startColor="@color/flat_green"
-                android:endColor="@color/flat_red"
-                android:type="linear"/>
-        </shape>
-    </item>
-
-    <item>
-        <clip android:id="@+id/progressbar_right">
             <shape>
                 <corners
-                    android:bottomLeftRadius="@dimen/bar_radius"
-                    android:bottomRightRadius="0dp"
-                    android:topLeftRadius="@dimen/bar_radius"
-                    android:topRightRadius="0dp"/>
+                    android:bottomLeftRadius="0dp"
+                    android:topLeftRadius="0dp"
+                    android:bottomRightRadius="@dimen/bar_radius"
+                    android:topRightRadius="@dimen/bar_radius"/>
                 <solid
                     android:color="@color/flat_white"
                     android:type="linear"/>
@@ -46,23 +14,55 @@
                     android:color="@color/flat_gray"
                     android:width="@dimen/bar_stroke" />
             </shape>
-        </clip>
     </item>
 
-    <item>
-        <clip android:id="@+id/progressbar_left">
+    <item android:id="@+id/seekbar_right">
             <shape>
                 <corners
-                    android:bottomLeftRadius="0dp"
-                    android:bottomRightRadius="@dimen/bar_radius"
-                    android:topLeftRadius="0dp"
-                    android:topRightRadius="@dimen/bar_radius"/>
+                    android:bottomLeftRadius="@dimen/bar_radius"
+                    android:bottomRightRadius="0dp"
+                    android:topLeftRadius="@dimen/bar_radius"
+                    android:topRightRadius="0dp"/>
                 <gradient
                     android:centerColor="@color/flat_yellow"
                     android:startColor="@color/flat_green"
                     android:endColor="@color/flat_red"
                     android:type="linear"/>
             </shape>
-        </clip>
+    </item>
+
+    <item>
+            <clip android:id="@+id/progressbar_right">
+                <shape>
+                    <corners
+                        android:bottomLeftRadius="@dimen/bar_radius"
+                        android:bottomRightRadius="0dp"
+                        android:topLeftRadius="@dimen/bar_radius"
+                        android:topRightRadius="0dp"/>
+                    <solid
+                        android:color="@color/flat_white"
+                        android:type="linear"/>
+                    <stroke
+                        android:color="@color/flat_gray"
+                        android:width="@dimen/bar_stroke" />
+                </shape>
+            </clip>
+    </item>
+
+    <item>
+            <clip android:id="@+id/progressbar_left">
+                <shape>
+                    <corners
+                        android:bottomLeftRadius="0dp"
+                        android:bottomRightRadius="@dimen/bar_radius"
+                        android:topLeftRadius="0dp"
+                        android:topRightRadius="@dimen/bar_radius"/>
+                    <gradient
+                        android:centerColor="@color/flat_yellow"
+                        android:startColor="@color/flat_green"
+                        android:endColor="@color/flat_red"
+                        android:type="linear"/>
+                </shape>
+            </clip>
     </item>
 </layer-list>

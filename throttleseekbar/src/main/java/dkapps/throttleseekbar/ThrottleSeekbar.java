@@ -4,13 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.drawable.ClipDrawable;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.InsetDrawable;
 import android.graphics.drawable.LayerDrawable;
-import android.graphics.drawable.ShapeDrawable;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.widget.SeekBar;
 
@@ -34,9 +31,10 @@ public class ThrottleSeekbar extends SeekBar {
     // Color values
     int mStartColor, mMidColor, mEndColor, mBarSolidColor, mBarStrokeColor, mThumbSolidColor, mThumbStrokeColor;
 
-    // Layer-List Drawables
+    // Drawables
     LayerDrawable mSeekbarLayerlist;
-    GradientDrawable mLeftBackground, mRightBackground, mLeftForeground, mRightForeground;
+    InsetDrawable mLeftBGInset, mRightBGInset, mLeftFGInset, mRightFGInset;
+    GradientDrawable mLeftBG, mRightBG, mLeftFG, mRightFG;
 
     Timer timer;
     boolean cancelTimer;
@@ -52,7 +50,9 @@ public class ThrottleSeekbar extends SeekBar {
     public ThrottleSeekbar(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         mContext = context;
-
+        // Get Layer-List drawable
+        mSeekbarLayerlist = (LayerDrawable) getResources().getDrawable(R.drawable.layerlist_seekbar);
+        setProgressDrawable(mSeekbarLayerlist);
         if (attrs != null) {
             TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ThrottleSeekbar, 0, 0);
             try {
@@ -96,14 +96,19 @@ public class ThrottleSeekbar extends SeekBar {
     }
 
     private void initializeThrottleBar() {
-        // Get Layer-List drawable
-        mSeekbarLayerlist = (LayerDrawable) getResources().getDrawable(R.drawable.layerlist_seekbar);
         if (mSeekbarLayerlist != null) {
-            mLeftBackground = (GradientDrawable) mSeekbarLayerlist.findDrawableByLayerId(R.id.seekbar_left);
-            mLeftForeground = (GradientDrawable) mSeekbarLayerlist.findDrawableByLayerId(R.id.progressbar_left);
-            mRightBackground = (GradientDrawable) mSeekbarLayerlist.findDrawableByLayerId(R.id.progressbar_right);
-            mRightForeground = (GradientDrawable) mSeekbarLayerlist.findDrawableByLayerId(R.id.seekbar_right);
-            setProgressDrawable(mSeekbarLayerlist);
+//            // Inset
+//            mLeftBGInset = (InsetDrawable) mSeekbarLayerlist.findDrawableByLayerId(R.id.seekbar_left_inset);
+//            mLeftFGInset = (InsetDrawable) mSeekbarLayerlist.findDrawableByLayerId(R.id.progressbar_left_inset);
+//            mRightBGInset = (InsetDrawable) mSeekbarLayerlist.findDrawableByLayerId(R.id.progressbar_right_inset);
+//            mRightFGInset = (InsetDrawable) mSeekbarLayerlist.findDrawableByLayerId(R.id.seekbar_left_inset);
+            // Gradient
+            mLeftBG = (GradientDrawable) mSeekbarLayerlist.findDrawableByLayerId(R.id.seekbar_left);
+            mLeftFG = (GradientDrawable) mSeekbarLayerlist.findDrawableByLayerId(R.id.progressbar_left);
+            mRightBG = (GradientDrawable) mSeekbarLayerlist.findDrawableByLayerId(R.id.progressbar_right);
+            mRightFG = (GradientDrawable) mSeekbarLayerlist.findDrawableByLayerId(R.id.seekbar_right);
+
+
             setBarDimens();
             setBarStyle();
             initializeThumb();
@@ -120,25 +125,25 @@ public class ThrottleSeekbar extends SeekBar {
     private void setBarStyle() {
         // Left-Right offset
         // TODO NEED TO CONVERT IT TO DP RATIO
-        // TODO NULL POINTER
-        LayerDrawable layerDrawable = new LayerDrawable(new Drawable[] {mLeftBackground, mRightBackground});
-        layerDrawable.setLayerInset(0, mOffset, 0, 0, 0);
-        layerDrawable.setLayerInset(1, 0, 0, mOffset, 0);
+//        mLeftBGInset.setBounds(mOffset, 0, 0, 0);
+//        mLeftFGInset.setBounds(mOffset, 0, 0, 0);
+//        mRightBGInset.setBounds(0, 0, mOffset, 0);
+//        mRightFGInset.setBounds(0, 0, mOffset, 0);
 
         // Colors
-        mLeftBackground.setColor(mBarSolidColor);
-        mLeftBackground.setStroke(mBarStroke, mBarStrokeColor);
-        mRightBackground.setColor(mBarSolidColor);
-        mRightBackground.setStroke(mBarStroke, mBarStrokeColor);
+        mLeftBG.setColor(mBarSolidColor);
+        mLeftBG.setStroke(mBarStroke, mBarStrokeColor);
+        mRightBG.setColor(mBarSolidColor);
+        mRightBG.setStroke(mBarStroke, mBarStrokeColor);
 
-        mLeftForeground.setColors(new int[] {mStartColor, mMidColor, mEndColor});
-        mRightForeground.setColors(new int[] {mStartColor, mMidColor, mEndColor});
+        mLeftFG.setColors(new int[] {mStartColor, mMidColor, mEndColor});
+        mRightFG.setColors(new int[] {mStartColor, mMidColor, mEndColor});
 
         // Radius
-        mLeftBackground.setCornerRadii(new float[] {0, mBarRadius, mBarRadius, 0});
-        mLeftForeground.setCornerRadii(new float[] {0, mBarRadius, mBarRadius, 0});
-        mRightBackground.setCornerRadii(new float[] {mBarRadius, 0, 0, mBarRadius});
-        mRightForeground.setCornerRadii(new float[] {mBarRadius, 0, 0, mBarRadius});
+        mLeftBG.setCornerRadii(new float[] {0, mBarRadius, mBarRadius, 0});
+        mLeftFG.setCornerRadii(new float[] {0, mBarRadius, mBarRadius, 0});
+        mRightBG.setCornerRadii(new float[] {mBarRadius, 0, 0, mBarRadius});
+        mRightFG.setCornerRadii(new float[] {mBarRadius, 0, 0, mBarRadius});
     }
 
     private void initializeThumb() {
@@ -153,6 +158,7 @@ public class ThrottleSeekbar extends SeekBar {
     }
 
     // Sets seekbar orientation vertial or horizontal
+    @Override
     protected void onDraw(Canvas c) {
         if (mOrientation == 1) {
             c.rotate(-90);
