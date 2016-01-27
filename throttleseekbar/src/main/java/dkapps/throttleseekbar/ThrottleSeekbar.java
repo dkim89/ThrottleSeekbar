@@ -33,8 +33,8 @@ public class ThrottleSeekbar extends SeekBar {
 
     // Drawables
     LayerDrawable mSeekbarLayerlist;
-    InsetDrawable mLeftBGInset, mRightBGInset, mLeftFGInset, mRightFGInset;
     GradientDrawable mLeftBG, mRightBG, mLeftFG, mRightFG;
+//    InsetDrawable mLeftBGInset, mRightBGInset, mLeftFGInset, mRightFGInset;
 
     Timer timer;
     boolean cancelTimer;
