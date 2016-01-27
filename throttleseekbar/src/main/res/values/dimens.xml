@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="bar_length">150dp</dimen>
-    <dimen name="bar_width">3dp</dimen>
-    <dimen name="bar_stroke">1dp</dimen>
-    <dimen name="bar_radius">5dp</dimen>
-
+    <dimen name="thumb_stroke">1dp</dimen>
     <dimen name="thumb_height">30dp</dimen>
     <dimen name="thumb_width">30dp</dimen>
-    <dimen name="thumb_stroke">1dp</dimen>
 
 </resources>

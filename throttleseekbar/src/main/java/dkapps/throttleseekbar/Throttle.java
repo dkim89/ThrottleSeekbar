@@ -8,7 +8,7 @@ package dkapps.throttleseekbar;
 public class Throttle {
     /* DEFAULT COLORS */
     public static final int FLAT_WHITE = 0xECF0F1;
-    public static final int FLAY_GRAY = 0x95A5A56;
+    public static final int FLAT_GRAY = 0x95A5A56;
     public static final int FLAT_GREEN = 0x27AE60;
     public static final int FLAT_YELLOW = 0xF1C40F;
     public static final int FLAT_RED = 0xE74C3C;
@@ -26,7 +26,7 @@ public class Throttle {
 
     /* VALUES */
     public static final int HORIZONAL = 0;
-    public static final int VERTICAL = 1;
+    public static final int DIR_NORMAL = 0;
     public static final int MAX_VALUE = 100;
     public static final int MIN_VALUE = -100;
     public static final int OFFSET = 100;
