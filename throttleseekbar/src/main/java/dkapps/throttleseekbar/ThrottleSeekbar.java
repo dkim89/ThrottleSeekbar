@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.InsetDrawable;
 import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -163,7 +165,9 @@ public class ThrottleSeekbar extends SeekBar {
 //        mLayerBG.setLayerInset(1, getPixelDp(mBarLength - mOffset), 0, 0, 0);
 
         // Set Layer Drawable as Progress Bar Drawable
-        setProgressDrawable(mLayerBG);
+        ShapeDrawable test = new ShapeDrawable();
+        test.getPaint().setColor(Color.BLUE);
+        setProgressDrawable(test);
     }
 
     @Override
